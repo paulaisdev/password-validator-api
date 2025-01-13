@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Password Validator API
+  description: >
+    API para validar senhas com base em regras específicas. 
+    A lógica é testada extensivamente com testes unitários para garantir que todas as validações sejam robustas e precisas.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+paths:
+  /api/password/validate:
+    post:
+      summary: Valida uma senha
+      description: >
+        Este endpoint valida uma senha com base nas regras definidas:
+        - Mínimo de 9 caracteres.
+        - Pelo menos uma letra maiúscula.
+        - Pelo menos um caractere especial (!@#$%^&*()-+).
+        - Ausência de caracteres repetidos.
+        - Apenas caracteres permitidos.
+        
+        O comportamento foi validado por meio de testes unitários cobrindo os casos de sucesso e falha.
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+            example: "AbTp9!fok"
+      responses:
+        "200":
+          description: >
+            Retorna `true` se a senha for válida ou `false` caso contrário.
+          content:
+            application/json:
+              schema:
+                type: boolean
+              examples:
+                ValidPassword:
+                  summary: Senha válida
+                  value: true
+                InvalidPassword:
+                  summary: Senha inválida
+                  value: false
+        "400":
+          description: Requisição inválida e quando a senha não é enviada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+                  error:
+                    type: string
+                    example: "Bad Request"
