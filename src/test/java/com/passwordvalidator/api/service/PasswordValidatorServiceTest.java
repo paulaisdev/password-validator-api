@@ -88,4 +88,20 @@ class PasswordValidatorServiceTest {
     void testPasswordValidationParametrized(String password, boolean expected) {
         assertEquals(expected, passwordValidatorService.isValid(password));
     }
+
+    @Test
+    void testShortCircuitStopsValidation() {
+        List<PasswordRule> mockRules = List.of(
+                password -> false,
+                password -> {
+                    throw new IllegalStateException("Esta regra não deve ser avaliada");
+                }
+        );
+
+        PasswordValidatorService service = new PasswordValidatorService(mockRules);
+
+        boolean result = service.isValid("TestPassword");
+        assertFalse(result);
+    }
+
 }
