@@ -1,6 +1,6 @@
-package com.example.passwordvalidator.rules;
+package com.passwordvalidator.api.rules;
 
-import com.example.passwordvalidator.domain.rules.UniqueCharacterRule;
+import com.passwordvalidator.api.domain.rules.UniqueCharacterRule;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

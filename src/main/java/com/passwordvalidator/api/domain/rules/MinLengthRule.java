@@ -1,6 +1,6 @@
-package com.example.passwordvalidator.domain.rules;
+package com.passwordvalidator.api.domain.rules;
 
-import com.example.passwordvalidator.domain.PasswordRule;
+import com.passwordvalidator.api.domain.PasswordRule;
 
 public class MinLengthRule implements PasswordRule {
     private final int minLength;

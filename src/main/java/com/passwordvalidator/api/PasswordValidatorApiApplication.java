@@ -1,4 +1,4 @@
-package com.example.passwordvalidator;
+package com.passwordvalidator.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

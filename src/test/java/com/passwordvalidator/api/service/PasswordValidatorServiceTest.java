@@ -1,7 +1,8 @@
-package com.example.passwordvalidator.service;
+package com.passwordvalidator.api.service;
 
-import com.example.passwordvalidator.domain.PasswordRule;
+import com.passwordvalidator.api.domain.PasswordRule;
 import com.example.passwordvalidator.domain.rules.*;
+import com.passwordvalidator.api.domain.rules.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

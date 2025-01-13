@@ -1,6 +1,6 @@
-package com.example.passwordvalidator.controller;
+package com.passwordvalidator.api.controller;
 
-import com.example.passwordvalidator.service.PasswordValidatorService;
+import com.passwordvalidator.api.service.PasswordValidatorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

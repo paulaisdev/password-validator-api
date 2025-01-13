@@ -1,6 +1,6 @@
-package com.example.passwordvalidator.service;
+package com.passwordvalidator.api.service;
 
-import com.example.passwordvalidator.domain.PasswordRule;
+import com.passwordvalidator.api.domain.PasswordRule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

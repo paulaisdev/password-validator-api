@@ -1,6 +1,6 @@
-package com.example.passwordvalidator.rules;
+package com.passwordvalidator.api.rules;
 
-import com.example.passwordvalidator.domain.rules.SpecialCharRule;
+import com.passwordvalidator.api.domain.rules.SpecialCharRule;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

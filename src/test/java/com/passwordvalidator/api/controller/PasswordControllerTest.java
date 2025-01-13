@@ -1,6 +1,6 @@
-package com.example.passwordvalidator.controller;
+package com.passwordvalidator.api.controller;
 
-import com.example.passwordvalidator.service.PasswordValidatorService;
+import com.passwordvalidator.api.service.PasswordValidatorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
