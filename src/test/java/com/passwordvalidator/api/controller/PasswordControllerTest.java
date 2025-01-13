@@ -1,6 +1,6 @@
 package com.passwordvalidator.api.controller;
 
-import com.passwordvalidator.api.service.PasswordValidatorService;
+import com.passwordvalidator.api.service.CachedPasswordValidatorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,16 +20,27 @@ class PasswordControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PasswordValidatorService passwordValidatorService;
+    private CachedPasswordValidatorService cachedPasswordValidatorService;
 
     @Test
     void testValidatePasswordEndpoint() throws Exception {
-        when(passwordValidatorService.isValid("AbTp9!fok")).thenReturn(true);
+        when(cachedPasswordValidatorService.isValid("AbTp9!fok")).thenReturn(true);
 
         mockMvc.perform(post("/api/password/validate")
-                .content("AbTp9!fok")
-                .contentType(MediaType.TEXT_PLAIN))
-            .andExpect(status().isOk())
-            .andExpect(content().string("true"));
+                        .content("AbTp9!fok")
+                        .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    void testValidatePasswordEndpoint_InvalidPassword() throws Exception {
+        when(cachedPasswordValidatorService.isValid("abc")).thenReturn(false);
+
+        mockMvc.perform(post("/api/password/validate")
+                        .content("abc")
+                        .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
     }
 }
