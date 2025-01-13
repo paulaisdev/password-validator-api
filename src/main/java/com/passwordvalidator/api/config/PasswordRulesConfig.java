@@ -1,7 +1,6 @@
 package com.passwordvalidator.api.config;
 
 import com.passwordvalidator.api.domain.PasswordRule;
-import com.example.passwordvalidator.domain.rules.*;
 import com.passwordvalidator.api.domain.rules.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

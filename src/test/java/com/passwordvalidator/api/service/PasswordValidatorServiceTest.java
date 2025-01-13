@@ -1,7 +1,6 @@
 package com.passwordvalidator.api.service;
 
 import com.passwordvalidator.api.domain.PasswordRule;
-import com.example.passwordvalidator.domain.rules.*;
 import com.passwordvalidator.api.domain.rules.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
