@@ -1,6 +1,7 @@
 package com.passwordvalidator.api.controller;
 
 import com.passwordvalidator.api.config.TestSecurityConfig;
+import com.passwordvalidator.api.metrics.PasswordMetrics;
 import com.passwordvalidator.api.service.CachedPasswordValidatorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +27,9 @@ class PasswordControllerTest {
     @MockBean
     private CachedPasswordValidatorService cachedPasswordValidatorService;
 
+    @MockBean
+    private PasswordMetrics passwordMetrics;
+
     @Test
     @WithMockUser
     void testValidatePasswordEndpoint_ValidPassword() throws Exception {
@@ -36,6 +40,9 @@ class PasswordControllerTest {
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
+
+        verify(passwordMetrics, times(1)).increment(); // Verifica se a métrica foi incrementada
+        verify(cachedPasswordValidatorService, times(1)).isValid("AbTp9!fok");
     }
 
     @Test
@@ -48,26 +55,37 @@ class PasswordControllerTest {
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
+
+        verify(passwordMetrics, times(1)).increment();
+        verify(cachedPasswordValidatorService, times(1)).isValid("abc");
     }
 
 //    @Test
 //    @WithMockUser
 //    void testValidatePasswordEndpoint_NullPassword() throws Exception {
 //        mockMvc.perform(post("/api/password/validate")
+//                        .content("")
 //                        .contentType(MediaType.TEXT_PLAIN))
 //                .andExpect(status().isBadRequest())
 //                .andExpect(content().string("false"));
+//
+//        verify(passwordMetrics, times(1)).increment(); // Métrica é chamada mesmo para erro
+//        verify(cachedPasswordValidatorService, never()).isValid(anyString()); // Serviço não é chamado
 //    }
 
     @Test
     @WithMockUser
     void testValidatePasswordEndpoint_LongPassword() throws Exception {
-        String longPassword = new String(new char[101]).replace('\0', 'a');
+        String longPassword = "a".repeat(101); // Senha longa com mais de 100 caracteres
+
         mockMvc.perform(post("/api/password/validate")
                         .content(longPassword)
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));
+
+        verify(passwordMetrics, times(1)).increment();
+        verify(cachedPasswordValidatorService, never()).isValid(anyString());
     }
 
     @Test
@@ -78,5 +96,8 @@ class PasswordControllerTest {
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));
+
+        verify(passwordMetrics, times(1)).increment();
+        verify(cachedPasswordValidatorService, never()).isValid(anyString());
     }
 }
