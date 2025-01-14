@@ -1,11 +1,15 @@
 package com.passwordvalidator.api.controller;
 
+import com.passwordvalidator.api.config.TestSecurityConfig;
 import com.passwordvalidator.api.service.CachedPasswordValidatorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -14,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PasswordController.class)
+@Import(TestSecurityConfig.class)
 class PasswordControllerTest {
 
     @Autowired
@@ -23,6 +28,7 @@ class PasswordControllerTest {
     private CachedPasswordValidatorService cachedPasswordValidatorService;
 
     @Test
+    @WithMockUser
     void testValidatePasswordEndpoint() throws Exception {
         when(cachedPasswordValidatorService.isValid("AbTp9!fok")).thenReturn(true);
 
@@ -34,6 +40,7 @@ class PasswordControllerTest {
     }
 
     @Test
+    @WithMockUser
     void testValidatePasswordEndpoint_InvalidPassword() throws Exception {
         when(cachedPasswordValidatorService.isValid("abc")).thenReturn(false);
 

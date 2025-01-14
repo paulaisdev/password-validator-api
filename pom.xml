@@ -42,6 +42,15 @@
             <artifactId>caffeine</artifactId>
             <version>3.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -50,7 +59,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.5.4</version>
                 <configuration>
-                    <mainClass>com.passwordvalidator.api.PasswordValidatorApiApplication</mainClass>
+                    <mainClass>com.passwordvalidator.api.Application</mainClass>
                 </configuration>
             </plugin>
             <plugin>
