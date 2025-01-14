@@ -93,6 +93,7 @@ class PasswordControllerTest {
     void testValidatePasswordEndpoint_InvalidCharacters() throws Exception {
         mockMvc.perform(post("/api/password/validate")
                         .content("AbTp9!fok@#€")
+                        .content("<script>alert('test')</script>")
                         .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));

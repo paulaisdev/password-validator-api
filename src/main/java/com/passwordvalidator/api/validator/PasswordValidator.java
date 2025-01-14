@@ -1,5 +1,7 @@
 package com.passwordvalidator.api.validator;
 
+import com.passwordvalidator.api.util.InputSanitizer;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,19 +10,22 @@ public class PasswordValidator {
     private static final int MAX_PASSWORD_LENGTH = 100;
 
     public static void validate(String password) {
-        if (password == null || password.isEmpty()) {
+        String sanitizedPassword = InputSanitizer.sanitize(password);
+
+        System.out.println("SENHA SANITIZADA" + sanitizedPassword);
+        if (sanitizedPassword == null || sanitizedPassword.isEmpty()) {
             throw new PasswordValidationException("Password is null or empty");
         }
 
-        if (password.length() > MAX_PASSWORD_LENGTH) {
+        if (sanitizedPassword.length() > MAX_PASSWORD_LENGTH) {
             throw new PasswordValidationException("Password exceeds maximum length of " + MAX_PASSWORD_LENGTH);
         }
 
-        if (!containsOnlyValidCharacters(password)) {
+        if (!containsOnlyValidCharacters(sanitizedPassword)) {
             throw new PasswordValidationException("Password contains invalid characters");
         }
 
-        if (containsRepeatedCharacters(password)) {
+        if (containsRepeatedCharacters(sanitizedPassword)) {
             throw new PasswordValidationException("Password contains repeated characters");
         }
     }

@@ -2,6 +2,7 @@ package com.passwordvalidator.api.controller;
 
 import com.passwordvalidator.api.metrics.PasswordMetrics;
 import com.passwordvalidator.api.service.CachedPasswordValidatorService;
+import com.passwordvalidator.api.util.InputSanitizer;
 import com.passwordvalidator.api.validator.PasswordValidationException;
 import com.passwordvalidator.api.validator.PasswordValidator;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,16 @@ public class PasswordController {
     @PostMapping("/validate")
     public ResponseEntity<Boolean> validatePassword(@RequestBody(required = false) String password) {
         try {
-            passwordMetrics.increment(); // Incrementa métrica personalizada
-            PasswordValidator.validate(password); // Validação centralizada
-            boolean isValid = cachedValidatorService.isValid(password); // Validação cacheada
+            passwordMetrics.increment();
+
+            String sanitizedPassword = InputSanitizer.sanitize(password);
+            System.out.println("CONTROLLER SENHA SANITIZADA" + sanitizedPassword);
+            PasswordValidator.validate(sanitizedPassword);
+
+            boolean isValid = cachedValidatorService.isValid(sanitizedPassword);
             return ResponseEntity.ok(isValid);
         } catch (PasswordValidationException e) {
-            return ResponseEntity.badRequest().body(false); // Retorna erro 400
+            return ResponseEntity.badRequest().body(false);
         }
     }
 }
