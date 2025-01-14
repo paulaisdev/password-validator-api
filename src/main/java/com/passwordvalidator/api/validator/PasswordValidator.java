@@ -1,0 +1,41 @@
+package com.passwordvalidator.api.validator;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class PasswordValidator {
+
+    private static final int MAX_PASSWORD_LENGTH = 100;
+
+    public static void validate(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new PasswordValidationException("Password is null or empty");
+        }
+
+        if (password.length() > MAX_PASSWORD_LENGTH) {
+            throw new PasswordValidationException("Password exceeds maximum length of " + MAX_PASSWORD_LENGTH);
+        }
+
+        if (!containsOnlyValidCharacters(password)) {
+            throw new PasswordValidationException("Password contains invalid characters");
+        }
+
+        if (containsRepeatedCharacters(password)) {
+            throw new PasswordValidationException("Password contains repeated characters");
+        }
+    }
+
+    private static boolean containsOnlyValidCharacters(String password) {
+        return password.matches("^[a-zA-Z0-9!@#$%^&*()\\-+]*$");
+    }
+
+    private static boolean containsRepeatedCharacters(String password) {
+        Set<Character> seen = new HashSet<>();
+        for (char c : password.toCharArray()) {
+            if (!seen.add(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
