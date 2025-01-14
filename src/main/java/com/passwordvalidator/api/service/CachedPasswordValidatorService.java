@@ -15,7 +15,6 @@ public class CachedPasswordValidatorService {
     }
 
     public boolean isValid(String password) {
-        // Usa o cache para evitar validações repetidas
         return cache.get(password, validatorService::isValid);
     }
 }

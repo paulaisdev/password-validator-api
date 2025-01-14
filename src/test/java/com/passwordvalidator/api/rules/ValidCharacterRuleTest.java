@@ -19,8 +19,8 @@ public class ValidCharacterRuleTest {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         ValidCharacterRule rule = new ValidCharacterRule(allowed);
 
-        assertTrue(rule.validate("AbTp9!fok")); // Apenas caracteres válidos
-        assertFalse(rule.validate("AbTp9!fok🙂")); // Contém caractere inválido
+        assertTrue(rule.validate("AbTp9!fok"));
+        assertFalse(rule.validate("AbTp9!fok🙂"));
     }
 
 }

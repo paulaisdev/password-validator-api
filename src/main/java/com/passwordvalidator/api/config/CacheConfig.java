@@ -13,8 +13,8 @@ public class CacheConfig {
     @Bean
     public Cache<String, Boolean> passwordValidationCache() {
         return Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES) // Cache expira em 10 minutos
-                .maximumSize(1000) // Limite de 1000 entradas
+                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .maximumSize(1000)
                 .build();
     }
 }

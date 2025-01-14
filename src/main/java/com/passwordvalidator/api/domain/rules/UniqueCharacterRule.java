@@ -13,9 +13,11 @@ public class UniqueCharacterRule implements PasswordRule {
         Set<Character> seen = new HashSet<>();
         for (char c : password.toCharArray()) {
             if (!seen.add(c)) {
+                System.out.println("Caractere repetido encontrado: " + c);
                 return false;
             }
         }
+        System.out.println("Senha válida (sem caracteres repetidos): " + password);
         return true;
     }
 }

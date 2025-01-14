@@ -11,8 +11,8 @@ public class UniqueCharacterRuleTest {
     void testUniqueCharacterRule() {
         UniqueCharacterRule rule = new UniqueCharacterRule();
 
-        assertTrue(rule.validate("AbTp9!fok")); // Sem caracteres repetidos
-        assertFalse(rule.validate("AbTp9!foA")); // Com caracteres repetidos
+        assertTrue(rule.validate("AbTp9!fok"));
+        assertFalse(rule.validate("AbTp9!foA"));
     }
 
 }
