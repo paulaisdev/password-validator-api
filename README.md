@@ -57,7 +57,9 @@ Esta é uma API escalável e extensível projetada para garantir a segurança de
 3. [📐 Design da API](#-design-da-api)
 4. [🧪 Testes](#-testes)
 5. [📊 Análise de Testes de Carga](#-análise-de-testes-de-carga)
-6. [🚀 Informações Adicionais](#-informações-adicionais)
+6. [📈 Métricas](#-métricas)
+7. [🔒 Segurança na API](#-segurança-na-api)
+8. [🚀 Informações Adicionais](#-informações-adicionais)
 
 ---
 
@@ -273,7 +275,7 @@ Com isso, as mudanças foram aplicadas e novos relatórioos gerados, gerando o s
 
 ---
 
-## **📊 Métricas**
+## **📈 Métricas**
 
 ### **Acessando as Métricas via Postman**
 
@@ -330,7 +332,7 @@ As métricas do projeto são expostas pelo **Spring Boot Actuator** e podem ser 
 Se o Actuator estiver protegido, configure o Postman com autenticação (**Basic Auth**) para acessar os endpoints.
 
 ---
-### **🔒 Segurança na API**
+## **🔒 Segurança na API**
 
 Sobre práticas para garantir a segurança dos dados e do serviço, podemos citar:
 
