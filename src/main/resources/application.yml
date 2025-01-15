@@ -1,5 +1,13 @@
 server:
   port: 8000
+spring:
+  mvc:
+    contentnegotiation:
+      favor-path-extension: false
+      favor-parameter: false
+      media-types:
+        json: application/json
+      ignore-unknown-path-extensions: true
 springdoc:
   api-docs:
     enabled: true

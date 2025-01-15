@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/api/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/password")
 public class PasswordController {
 
     private final CachedPasswordValidatorService cachedValidatorService;
@@ -23,7 +23,7 @@ public class PasswordController {
         this.passwordMetrics = passwordMetrics;
     }
 
-    @PostMapping("/validate")
+    @PostMapping(value ="/validate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> validatePassword(@Valid @RequestBody String password) {
         try {
             passwordMetrics.increment();
