@@ -2,10 +2,10 @@ server:
   port: 8000
 springdoc:
   api-docs:
-    path: /v3/api-docs
+    enabled: true
   swagger-ui:
+    url: /openapi.yaml
     path: /swagger-ui.html
-    display-request-duration: true
 management:
   endpoints:
     web:
@@ -14,3 +14,6 @@ management:
   metrics:
     enable:
       all: true
+ratelimiting:
+  max-requests: 100
+  window-size: 60000
