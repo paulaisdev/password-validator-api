@@ -1,8 +1,7 @@
 # 🚀 Password Validator API
 
 Esta é uma API escalável e extensível projetada para garantir a segurança de senhas através de regras de validação. 
-
-Principais tecnologias utilizadas:
+---
 
 <div align="center">
 	<img width="50" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/rest.png" alt="REST" title="REST"/>
@@ -17,13 +16,37 @@ Principais tecnologias utilizadas:
 </div>
 
 
-🔒 **Principais Características:**
+
+---
+**Principais Características:**
 
 - Valida senhas com base em regras de negócio
 - Arquitetura extensível para adição de novas regras
 - Desenvolvida seguindo os princípios **SOLID** e **Clean Code**
 - Testada com testes unitários e de integração
 - Documentação com **Swagger UI**.
+
+---
+
+## **🔑 Requisitos Funcionais**
+
+**Nove ou mais caracteres**  
+   - A senha deve ter pelo menos **9 caracteres** para ser considerada válida.
+
+**Ao menos 1 número**  
+   - Deve conter pelo menos **1 número** (`0-9`).
+
+**Ao menos 1 letra minúscula**  
+   - Pelo menos **1 caractere alfabético em minúsculo** (`a-z`).
+
+**Ao menos 1 letra maiúscula**  
+   - Pelo menos **1 caractere alfabético em maiúsculo** (`A-Z`).
+
+**Ao menos 1 caractere especial**  
+   - Deve conter pelo menos **1 caractere especial** dos seguintes: `!@#$%^&*()-+`.
+
+**Sem caracteres repetidos**  
+   - **Nenhum caractere pode se repetir** dentro da mesma senha.
 
 ---
 
@@ -48,20 +71,20 @@ Principais tecnologias utilizadas:
 
 ### **Passos para Executar:**
 
-1. Clone o repositório:
+Clone o repositório:
 
    ```bash
    git clone https://github.com/paulaisdev/password-validator-api.git
    cd password-validator-api
    ```
 
-2. Execute o projeto com o comando abaixo:
+Execute o projeto com o comando abaixo:
 
    ```bash
    ./mvnw spring-boot:run
    ```
 
-3. Acesse a API:
+Acesse a API:
 
    - **URL**: `http://localhost:8080`
    - **Swagger UI**: `http://localhost:8080/swagger-ui.html`
@@ -76,7 +99,7 @@ A documentação da API foi gerada automaticamente usando **Swagger UI** e está
 
 Após iniciar o projeto, acesse:
 
-- [Swagger UI - Documentação Interativa](http://localhost:8080/swagger-ui.html)
+- [Swagger UI - Documentação](http://localhost:8080/swagger-ui.html)
 
 ### **Endpoints Disponíveis:**
 
@@ -172,22 +195,22 @@ src/
 
 ### **Princípios que guiaram a implementação:**
 
-1. **Arquitetura RESTful**:
+**Arquitetura RESTful**:
 
    - Endpoints definidos e uso de HTTP status codes
 
-2. **Estrutura Modular**:
+**Estrutura Modular**:
 
    - Controladores localizados em `com.passwordvalidator.api.controller`
    - Regras de validação centralizadas em `com.passwordvalidator.api.service.validator`
    - Configuração de regras em `PasswordRulesConfig`
 
-3. **Extensibilidade e Manutenção**:
+**Extensibilidade e Manutenção**:
 
    - Regras encapsuladas em classes independentes, como `LengthRule` e `SpecialCharacterRule`
    - Injeção de dependências facilita a troca e adição de regras sem impacto no código existente
 
-4. **Tratamento de Erros**:
+**Tratamento de Erros**:
 
    - Centralizado para respostas consistentes, por exemplo: `PasswordValidationException` para erros customizados
 
@@ -244,9 +267,9 @@ Com isso, as mudanças foram aplicadas e novos relatórioos gerados, gerando o s
 
 ### **Melhorias Implementadas:**
 
-1. **Cache:** Uso do Caffeine para reduzir validações repetidas
-2. **Short-Circuit:** Validação interrompida na primeira falha
-3. **Monitoramento:** Integração com Spring Boot Actuator para métricas detalhadas
+**Cache:** Uso do Caffeine para reduzir validações repetidas
+**Short-Circuit:** Validação interrompida na primeira falha
+**Monitoramento:** Integração com Spring Boot Actuator para métricas detalhadas
 
 ---
 
@@ -258,7 +281,7 @@ As métricas do projeto são expostas pelo **Spring Boot Actuator** e podem ser 
 
 ### **Como Consultar:**
 
-1. **Listar Todas as Métricas:**
+**Listar Todas as Métricas:**
    - Método: `GET`
    - Endpoint:
      ```
@@ -275,7 +298,7 @@ As métricas do projeto são expostas pelo **Spring Boot Actuator** e podem ser 
      }
      ```
 
-2. **Consultar Métrica Específica:**
+ **Consultar Métrica Específica:**
    - Método: `GET`
    - Endpoint:
      ```
@@ -306,10 +329,33 @@ As métricas do projeto são expostas pelo **Spring Boot Actuator** e podem ser 
 ### **Configuração de Segurança**
 Se o Actuator estiver protegido, configure o Postman com autenticação (**Basic Auth**) para acessar os endpoints.
 
+---
+### **🔒 Segurança na API**
+
+Sobre práticas para garantir a segurança dos dados e do serviço, podemos citar:
+
+**Sanitização de Entradas**: 
+   - Todas as entradas passam por sanitização para remover caracteres perigosos, como `<script>` e outras possíveis injeções de código.
+
+**Validação Estrita**: 
+   - Senhas são validadas conforme regras específicas, rejeitando entradas inválidas ou malformadas.
+
+**Rate Limiting**: 
+   - Configuração de limites de requisições para prevenir ataques de força bruta e sobrecarga no serviço.
+
+**Métricas e Monitoramento**: 
+   - Endpoints do Actuator monitoram métricas de uso, permitindo a detecção de atividades incomuns ou suspeitas.
+
+**Configurações de Content-Type**: 
+   - Apenas requisições com `Content-Type: application/json` são aceitas, reduzindo o risco de exploração de formatos não intencionais.
 
 ---
 
 ## **🚀 Informações Adicionais**
 
+Este projeto foi construído em poucos dias com foco em implementar as regras de negócio da API. A ideia foi implementar parte de boas práticas de desenvolvimento, ainda que de maneira mais simples, conforme a complexidade do projeto. 
+Segurança, métricas, monitoramento, testes, boa execução do código, seguindo práticas do Clean Code, SOLID e outras práticas sugeridas pela comunidade. Caso você tenha sugestões ou ideias, são sempre bem-vindas! 
+
+Obrigada por ter chegado até aqui e vamos juntos! 🚀
 
 ---
