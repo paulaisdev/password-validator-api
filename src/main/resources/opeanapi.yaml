@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: Password Validation API
+  description: API para validar e gerenciar senhas.
+  version: 1.0.0
+paths:
+  /api/password/validate:
+    post:
+      summary: Valida uma senha
+      description: Recebe uma senha e aplica validações.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              example: "{\"password\": \"AbTp9!fok\"}"
+      responses:
+        '200':
+          description: Validação bem-sucedida
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Erro de validação
