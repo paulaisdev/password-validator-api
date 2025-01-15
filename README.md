@@ -11,8 +11,9 @@ Principais tecnologias utilizadas:
 	<img width="50" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/spring_boot.png" alt="Spring Boot" title="Spring Boot"/>
 	<img width="50" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/maven.png" alt="Maven" title="Maven"/>
 	<img width="50" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/junit.png" alt="JUnit" title="JUnit"/>
-  <img width="50" src="https://img.shields.io/badge/Mockito-FF8000?style=for-the-badge&logo=mockito&logoColor=white" alt="JUnit" title="Mockito"/>
-  <img width="50" src="https://img.shields.io/badge/Apache%20JMeter-D22128?style=for-the-badge&logo=apache&logoColor=white" alt="JUnit" title="JMeter"/>
+  <img width="50" src="https://img.shields.io/badge/Mockito-FF8000?style=for-the-badge&logo=mockito&logoColor=white" alt="Mockito" title="Mockito"/>
+  <img width="50" src="https://img.shields.io/badge/Apache%20JMeter-D22128?style=for-the-badge&logo=apache&logoColor=white" alt="JMeter" title="JMeter"/>
+  <img width="50" src="https://www.vectorlogo.zone/logos/redis/redis-icon.svg" alt="Caffeine" title="Caffeine"/>
 </div>
 
 
@@ -115,7 +116,7 @@ Content-Type: application/json
 ---
 ## **🔎 Teste local**
 
-Para testar localmente, além de utilizar a interface do swagger, está disponível a collection do postman que disponibilizo ![aqui](url)
+Para testar localmente, além de utilizar a interface do swagger, está disponível a collection do postman que disponibilizo <a href="./assets/PasswordValidatorAPI.postman_collection.json" target="_blank">aqui</a>
 
 ---
 
@@ -241,10 +242,74 @@ Com isso, as mudanças foram aplicadas e novos relatórioos gerados, gerando o s
 | **Throughput**              | ~2500 RPM (~41 RPS)       | 21,939 RPS (~1316 RPM)    | **Grande aumento**             |
 
 
+### **Melhorias Implementadas:**
+
+1. **Cache:** Uso do Caffeine para reduzir validações repetidas
+2. **Short-Circuit:** Validação interrompida na primeira falha
+3. **Monitoramento:** Integração com Spring Boot Actuator para métricas detalhadas
+
+---
+
+## **📊 Métricas**
+
+### **Acessando as Métricas via Postman**
+
+As métricas do projeto são expostas pelo **Spring Boot Actuator** e podem ser acessadas pelo Postman.
+
+### **Como Consultar:**
+
+1. **Listar Todas as Métricas:**
+   - Método: `GET`
+   - Endpoint:
+     ```
+     http://localhost:8080/actuator/metrics
+     ```
+   - Resposta:
+     ```json
+     {
+       "names": [
+         "http.server.requests",
+         "jvm.memory.used",
+         "password.validations"
+       ]
+     }
+     ```
+
+2. **Consultar Métrica Específica:**
+   - Método: `GET`
+   - Endpoint:
+     ```
+     http://localhost:8080/actuator/metrics/password.validations
+     ```
+   - Exemplo de Resposta:
+     ```json
+     {
+       "name": "password.validations",
+       "measurements": [
+         {
+           "statistic": "COUNT",
+           "value": 123
+         }
+       ],
+       "availableTags": []
+     }
+     ```
+
+### **Legenda das Métricas**
+
+| Nome                    | Descrição                                        |
+|-------------------------|--------------------------------------------------|
+| `http.server.requests`  | Métricas relacionadas às requisições HTTP.      |
+| `jvm.memory.used`       | Uso de memória da JVM.                          |
+| `password.validations`  | Total de senhas validadas pela API.             |
+
+### **Configuração de Segurança**
+Se o Actuator estiver protegido, configure o Postman com autenticação (**Basic Auth**) para acessar os endpoints.
+
+
 ---
 
 ## **🚀 Informações Adicionais**
 
 
 ---
-
