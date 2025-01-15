@@ -1,5 +1,6 @@
-package com.passwordvalidator.api.validator;
+package com.passwordvalidator.api.service.validator;
 
+import com.passwordvalidator.api.exceptions.PasswordValidationException;
 import com.passwordvalidator.api.util.InputSanitizer;
 
 import java.util.HashSet;

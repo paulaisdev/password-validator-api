@@ -1,5 +1,6 @@
-package com.passwordvalidator.api.filter;
+package com.passwordvalidator.api.config.filter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +12,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Semaphore;
 
 @Component
 public class RateLimitingFilter implements Filter {
 
     private final Map<String, RateLimiter> rateLimiters = new ConcurrentHashMap<>();
+
+    @Value("${ratelimiting.max-requests:100}")
+    public long maxRequests = 100;
+
+    @Value("${ratelimiting.window-size:60000}")
+    public long windowSizeMillis = 60000;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -28,7 +35,7 @@ public class RateLimitingFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         String clientIp = httpRequest.getRemoteAddr();
-        RateLimiter rateLimiter = rateLimiters.computeIfAbsent(clientIp, ip -> new RateLimiter(100, Duration.ofMinutes(1)));
+        RateLimiter rateLimiter = rateLimiters.computeIfAbsent(clientIp, ip -> new RateLimiter(maxRequests, windowSizeMillis));
 
         if (rateLimiter.isAllowed()) {
             chain.doFilter(request, response);
@@ -39,29 +46,24 @@ public class RateLimitingFilter implements Filter {
     }
 
     static class RateLimiter {
-        private final long maxRequests;
+        private final Semaphore semaphore;
         private final long windowSizeMillis;
-        private long requests;
-        private long windowStart;
+        private long lastReset;
 
-        public RateLimiter(long maxRequests, Duration windowSize) {
-            this.maxRequests = maxRequests;
-            this.windowSizeMillis = windowSize.toMillis();
-            this.requests = 0;
-            this.windowStart = System.currentTimeMillis();
+        public RateLimiter(long maxRequests, long windowSizeMillis) {
+            this.semaphore = new Semaphore((int) maxRequests);
+            this.windowSizeMillis = windowSizeMillis;
+            this.lastReset = System.currentTimeMillis();
         }
 
         synchronized boolean isAllowed() {
             long now = System.currentTimeMillis();
-            if (now - windowStart > windowSizeMillis) {
-                windowStart = now;
-                requests = 0;
+            if (now - lastReset > windowSizeMillis) {
+                semaphore.drainPermits();
+                semaphore.release(semaphore.getQueueLength());
+                lastReset = now;
             }
-            if (requests < maxRequests) {
-                requests++;
-                return true;
-            }
-            return false;
+            return semaphore.tryAcquire();
         }
     }
 }

@@ -3,13 +3,14 @@ package com.passwordvalidator.api.controller;
 import com.passwordvalidator.api.metrics.PasswordMetrics;
 import com.passwordvalidator.api.service.CachedPasswordValidatorService;
 import com.passwordvalidator.api.util.InputSanitizer;
-import com.passwordvalidator.api.validator.PasswordValidationException;
-import com.passwordvalidator.api.validator.PasswordValidator;
+import com.passwordvalidator.api.exceptions.PasswordValidationException;
+import com.passwordvalidator.api.service.validator.PasswordValidator;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/password")
+@RequestMapping(value = "/api/password", consumes = MediaType.APPLICATION_JSON_VALUE)
 public class PasswordController {
 
     private final CachedPasswordValidatorService cachedValidatorService;

@@ -1,6 +1,6 @@
 package com.passwordvalidator.api.config;
 
-import com.passwordvalidator.api.filter.RateLimitingFilter;
+import com.passwordvalidator.api.config.filter.RateLimitingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

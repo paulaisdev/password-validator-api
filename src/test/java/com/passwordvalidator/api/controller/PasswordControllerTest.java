@@ -37,7 +37,7 @@ class PasswordControllerTest {
 
         mockMvc.perform(post("/api/password/validate")
                         .content("AbTp9!fok")
-                        .contentType(MediaType.TEXT_PLAIN))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
 
@@ -52,7 +52,7 @@ class PasswordControllerTest {
 
         mockMvc.perform(post("/api/password/validate")
                         .content("abc")
-                        .contentType(MediaType.TEXT_PLAIN))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
 
@@ -76,11 +76,11 @@ class PasswordControllerTest {
     @Test
     @WithMockUser
     void testValidatePasswordEndpoint_LongPassword() throws Exception {
-        String longPassword = "a".repeat(101); // Senha longa com mais de 100 caracteres
+        String longPassword = new String(new char[101]).replace('\0', 'a'); // 101 caracteres 'a'
 
         mockMvc.perform(post("/api/password/validate")
                         .content(longPassword)
-                        .contentType(MediaType.TEXT_PLAIN))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));
 
@@ -94,7 +94,7 @@ class PasswordControllerTest {
         mockMvc.perform(post("/api/password/validate")
                         .content("AbTp9!fok@#€")
                         .content("<script>alert('test')</script>")
-                        .contentType(MediaType.TEXT_PLAIN))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));
 
