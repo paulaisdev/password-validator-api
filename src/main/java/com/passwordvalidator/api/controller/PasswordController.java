@@ -3,11 +3,13 @@ package com.passwordvalidator.api.controller;
 import com.passwordvalidator.api.metrics.PasswordMetrics;
 import com.passwordvalidator.api.service.CachedPasswordValidatorService;
 import com.passwordvalidator.api.util.InputSanitizer;
-import com.passwordvalidator.api.exceptions.PasswordValidationException;
+import com.passwordvalidator.api.exception.PasswordValidationException;
 import com.passwordvalidator.api.service.validator.PasswordValidator;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/password", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -22,12 +24,11 @@ public class PasswordController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<Boolean> validatePassword(@RequestBody(required = false) String password) {
+    public ResponseEntity<Boolean> validatePassword(@Valid @RequestBody String password) {
         try {
             passwordMetrics.increment();
 
             String sanitizedPassword = InputSanitizer.sanitize(password);
-            System.out.println("CONTROLLER SENHA SANITIZADA" + sanitizedPassword);
             PasswordValidator.validate(sanitizedPassword);
 
             boolean isValid = cachedValidatorService.isValid(sanitizedPassword);

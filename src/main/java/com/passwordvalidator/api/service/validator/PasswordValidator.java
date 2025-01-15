@@ -1,6 +1,6 @@
 package com.passwordvalidator.api.service.validator;
 
-import com.passwordvalidator.api.exceptions.PasswordValidationException;
+import com.passwordvalidator.api.exception.PasswordValidationException;
 import com.passwordvalidator.api.util.InputSanitizer;
 
 import java.util.HashSet;
@@ -13,7 +13,6 @@ public class PasswordValidator {
     public static void validate(String password) {
         String sanitizedPassword = InputSanitizer.sanitize(password);
 
-        System.out.println("SENHA SANITIZADA" + sanitizedPassword);
         if (sanitizedPassword == null || sanitizedPassword.isEmpty()) {
             throw new PasswordValidationException("Password is null or empty");
         }

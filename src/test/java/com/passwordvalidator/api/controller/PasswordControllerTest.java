@@ -32,7 +32,7 @@ class PasswordControllerTest {
 
     @Test
     @WithMockUser
-    void testValidatePasswordEndpoint_ValidPassword() throws Exception {
+    void testValidPassword() throws Exception {
         when(cachedPasswordValidatorService.isValid("AbTp9!fok")).thenReturn(true);
 
         mockMvc.perform(post("/api/password/validate")
@@ -47,7 +47,7 @@ class PasswordControllerTest {
 
     @Test
     @WithMockUser
-    void testValidatePasswordEndpoint_InvalidPassword() throws Exception {
+    void testInvalidPassword() throws Exception {
         when(cachedPasswordValidatorService.isValid("abc")).thenReturn(false);
 
         mockMvc.perform(post("/api/password/validate")
@@ -60,22 +60,17 @@ class PasswordControllerTest {
         verify(cachedPasswordValidatorService, times(1)).isValid("abc");
     }
 
-//    @Test
-//    @WithMockUser
-//    void testValidatePasswordEndpoint_NullPassword() throws Exception {
-//        mockMvc.perform(post("/api/password/validate")
-//                        .content("")
-//                        .contentType(MediaType.TEXT_PLAIN))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string("false"));
-//
-//        verify(passwordMetrics, times(1)).increment(); // Métrica é chamada mesmo para erro
-//        verify(cachedPasswordValidatorService, never()).isValid(anyString()); // Serviço não é chamado
-//    }
+    @Test
+    void testInvalidContentType() throws Exception {
+        mockMvc.perform(post("/api/password/validate")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("AbTp9!fok"))
+                .andExpect(status().isUnsupportedMediaType());
+    }
 
     @Test
     @WithMockUser
-    void testValidatePasswordEndpoint_LongPassword() throws Exception {
+    void testValidateLongPassword() throws Exception {
         String longPassword = new String(new char[101]).replace('\0', 'a'); // 101 caracteres 'a'
 
         mockMvc.perform(post("/api/password/validate")
@@ -90,7 +85,7 @@ class PasswordControllerTest {
 
     @Test
     @WithMockUser
-    void testValidatePasswordEndpoint_InvalidCharacters() throws Exception {
+    void testValidateInvalidCharacters() throws Exception {
         mockMvc.perform(post("/api/password/validate")
                         .content("AbTp9!fok@#€")
                         .content("<script>alert('test')</script>")
