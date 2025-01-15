@@ -36,7 +36,7 @@ class PasswordControllerTest {
         when(cachedPasswordValidatorService.isValid("AbTp9!fok")).thenReturn(true);
 
         mockMvc.perform(post("/api/password/validate")
-                        .content("AbTp9!fok")
+                        .content( "{\"password\":\"AbTp9!fok\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
@@ -51,7 +51,7 @@ class PasswordControllerTest {
         when(cachedPasswordValidatorService.isValid("abc")).thenReturn(false);
 
         mockMvc.perform(post("/api/password/validate")
-                        .content("abc")
+                        .content( "{\"password\":\"abc\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
@@ -64,17 +64,17 @@ class PasswordControllerTest {
     void testInvalidContentType() throws Exception {
         mockMvc.perform(post("/api/password/validate")
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("AbTp9!fok"))
+                        .content( "{\"password\":\"AbTp9!fok\"}"))
                 .andExpect(status().isUnsupportedMediaType());
     }
 
     @Test
     @WithMockUser
     void testValidateLongPassword() throws Exception {
-        String longPassword = new String(new char[101]).replace('\0', 'a'); // 101 caracteres 'a'
+        String longPassword = new String(new char[101]).replace('\0', 'a');
 
         mockMvc.perform(post("/api/password/validate")
-                        .content(longPassword)
+                        .content(String.format("{\"password\":\"%s\"}", longPassword))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));
@@ -87,8 +87,7 @@ class PasswordControllerTest {
     @WithMockUser
     void testValidateInvalidCharacters() throws Exception {
         mockMvc.perform(post("/api/password/validate")
-                        .content("AbTp9!fok@#€")
-                        .content("<script>alert('test')</script>")
+                        .content("{\"password\":\"<script>alert('test')</script>\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("false"));

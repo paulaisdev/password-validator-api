@@ -8,6 +8,8 @@ spring:
       media-types:
         json: application/json
       ignore-unknown-path-extensions: true
+    messages:
+      basename: messages
 springdoc:
   api-docs:
     enabled: true
