@@ -1,4 +1,4 @@
-package com.passwordvalidator.api.filter;
+package com.passwordvalidator.api.config.filter;
 
 import com.passwordvalidator.api.config.filter.RateLimitingFilter;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,18 +38,4 @@ class RateLimitingFilterTest {
         verify(chain, times(1)).doFilter(request, response);
         verify(response, never()).setStatus(429);
     }
-//
-//    @Test
-//    void testRequestBlocked() throws Exception {
-//        when(request.getRemoteAddr()).thenReturn("127.0.0.1");
-//
-//        for (int i = 0; i < 100; i++) {
-//            rateLimitingFilter.doFilter(request, response, chain);
-//        }
-//
-//        rateLimitingFilter.doFilter(request, response, chain);
-//
-//        verify(response, times(1)).setStatus(429);
-//        verify(chain, times(100)).doFilter(request, response);
-//    }
 }

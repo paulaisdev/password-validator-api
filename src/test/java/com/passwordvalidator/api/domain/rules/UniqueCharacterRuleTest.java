@@ -1,4 +1,4 @@
-package com.passwordvalidator.api.rules;
+package com.passwordvalidator.api.domain.rules;
 
 import com.passwordvalidator.api.domain.rules.UniqueCharacterRule;
 import org.junit.jupiter.api.Test;

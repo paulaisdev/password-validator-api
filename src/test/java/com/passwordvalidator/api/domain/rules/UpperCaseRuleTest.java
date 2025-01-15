@@ -1,4 +1,4 @@
-package com.passwordvalidator.api.rules;
+package com.passwordvalidator.api.domain.rules;
 
 import com.passwordvalidator.api.domain.rules.UpperCaseRule;
 import org.junit.jupiter.api.Test;
